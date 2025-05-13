@@ -1,22 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function ReflectionScreen() {
+export default function HomeScreen({ navigation }) {
   const [reflections, setReflections] = useState([]);
 
   useEffect(() => {
     const loadReflections = async () => {
       try {
-        const storedReflections = await AsyncStorage.getItem('reflections');
-        if (storedReflections) {
-          const parsed = JSON.parse(storedReflections);
-          // Najnowsze na górze (zakładamy, że nowe są dodawane na koniec)
-          const sorted = [...parsed].reverse();
-          setReflections(sorted);
+        const stored = await AsyncStorage.getItem('reflections');
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          setReflections(parsed.reverse()); // najnowsze na górze
         }
       } catch (e) {
-        console.error('Błąd wczytywania refleksji:', e);
+        console.error('Błąd wczytywania:', e);
       }
     };
 
@@ -24,20 +22,32 @@ export default function ReflectionScreen() {
     return unsubscribe;
   }, [navigation]);
 
+  const renderItem = ({ item }) => (
+    <TouchableOpacity
+      style={styles.item}
+      onPress={() => navigation.navigate('ReflectionDetail', { reflection: item })}
+    >
+      <Text style={styles.title}>{item.title}</Text>
+      <Text numberOfLines={2} style={styles.content}>{item.content}</Text>
+    </TouchableOpacity>
+  );
+
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Refleksje</Text>
+      
       <FlatList
         data={reflections}
-        renderItem={({ item }) => (
-          <View style={styles.item}>
-            <Text style={styles.title}>{item.title}</Text>
-            <Text style={styles.content}>{item.content}</Text>
-          </View>
-        )}
+        renderItem={renderItem}
         keyExtractor={(_, index) => index.toString()}
-        contentContainerStyle={{ paddingBottom: 40 }}
+        ListEmptyComponent={<Text style={styles.empty}>Brak refleksji</Text>}
+        contentContainerStyle={{ paddingBottom: 20 }}
       />
+      <TouchableOpacity
+        style={styles.addButton}
+        onPress={() => navigation.navigate('AddReflection')}
+      >
+        <Text style={styles.addButtonText}>+ Dodaj refleksję</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -45,7 +55,7 @@ export default function ReflectionScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 60,
+    paddingTop: 20,
     paddingHorizontal: 20,
     backgroundColor: '#fff',
   },
@@ -65,7 +75,28 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   content: {
-    marginTop: 8,
+    marginTop: 6,
+    fontSize: 15,
+    color: '#333',
+  },
+  addButton: {
+    position: 'absolute',
+    bottom: 30,
+    alignSelf: 'center',
+    backgroundColor: '#4caf50',
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 30,
+    elevation: 4,
+  },
+  addButtonText: {
+    color: '#fff',
     fontSize: 16,
+    fontWeight: 'bold',
+  },
+  empty: {
+    textAlign: 'center',
+    marginTop: 40,
+    color: '#aaa',
   },
 });
