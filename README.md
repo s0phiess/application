@@ -20,14 +20,15 @@ Expo CLI (npm install -g expo-cli)
 Konto Expo (opcjonalne, ale zalecane)
 
 Użyte technologie
-React Native + Expo – budowa aplikacji mobilnej
-Expo Router – nawigacja ekranowa w stylu Next.js
-expo-location – dostęp do lokalizacji GPS
-expo-notifications – integracja z powiadomieniami push
-React Context API – zarządzanie tematyką UI (dark/light mode)
-SecureStore – bezpieczne przechowywanie tokenów
-TypeScript – typowanie kodu
-ESLint + Prettier – jakość kodu i jego formatowanie
+1.React Native + Expo – budowa aplikacji mobilnej
+2.Expo Router – nawigacja ekranowa w stylu Next.js
+3.expo-location – dostęp do lokalizacji GPS
+4.expo-notifications – integracja z powiadomieniami push
+5.React Context API – zarządzanie tematyką UI (dark/light mode)
+6.SecureStore – bezpieczne przechowywanie tokenów
+7.TypeScript – typowanie kodu
+8.ESLint + Prettier – jakość kodu i jego formatowanie
+ 
  Struktura katalogów
 project/
 ├── app/               # Pliki routingu (np. login, signup, dashboard)
@@ -37,12 +38,12 @@ project/
 ├── assets/            # Ikony, obrazy itp.
 
  Funkcjonalności aplikacji:
- Logowanie i rejestracja z walidacją
- Pobieranie lokalizacji GPS
- Tryb jasny/ciemny
- Ekran profilu użytkownika
- Routing oparty o strukturę folderów (Expo Router)
- Bezpieczne przechowywanie tokenów
- Obsługa błędów z komunikatami
+ 1.Logowanie i rejestracja z walidacją
+ 2.Pobieranie lokalizacji GPS
+ 3.Tryb jasny/ciemny
+ 4.Ekran profilu użytkownika
+ 5.Routing oparty o strukturę folderów (Expo Router)
+ 6.Bezpieczne przechowywanie tokenów
+ 7.Obsługa błędów z komunikatami
  Tryb offline (cache danych)
  Przygotowanie pod publikację (build i deployment)
